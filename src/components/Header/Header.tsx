@@ -1,7 +1,8 @@
-import React from "react";
+import React from 'react';
+import './header.css';
 
 function Header() {
-  return <footer>Header</footer>;
+    return <header>Goal Setting</header>;
 }
 
 export default Header;
