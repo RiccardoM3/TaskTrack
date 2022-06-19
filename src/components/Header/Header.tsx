@@ -2,7 +2,7 @@ import React from 'react';
 import './header.css';
 
 function Header() {
-    return <header>Goal Setting</header>;
+    return <header>Progress</header>;
 }
 
 export default Header;

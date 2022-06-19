@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
 import DateBox from './DateBox';
 import './yearlyCalendar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'; // <-- import styles to be used
 
 type Props = {
     year: number;
 };
 
 function YearlyCalendar(props: Props) {
-    const days: Date[] = getDaysInYear(props.year);
+    const [year, setYear] = useState(props.year);
+
+    const days: Date[] = getDaysInYear(year);
     return (
         <div className="yearly-calendar">
+            <div className="">
+                <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                        setYear(year - 1);
+                    }}
+                >
+                    <FontAwesomeIcon icon={solid('chevron-left')} />
+                </Button>
+                <h4 className="d-inline px-3">{year}</h4>
+                <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                        setYear(year + 1);
+                    }}
+                >
+                    <FontAwesomeIcon icon={solid('chevron-right')} />
+                </Button>
+            </div>
             <div className="grid-container">
                 <div className="">Mon</div>
                 <div>Tues</div>
@@ -21,7 +47,7 @@ function YearlyCalendar(props: Props) {
                 {days.map((date: Date) => {
                     return (
                         <DateBox
-                            year={props.year}
+                            year={year}
                             date={date}
                             key={date.toString()}
                         ></DateBox>
