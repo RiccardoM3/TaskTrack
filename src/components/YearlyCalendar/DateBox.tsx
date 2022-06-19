@@ -2,6 +2,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import './dateBox.css';
 
 type Props = {
+    year: Number;
     date: Date;
 };
 
@@ -16,7 +17,14 @@ const DateBox = (props: Props) => {
                 </Tooltip>
             }
         >
-            <div className="date-box">&nbsp;</div>
+            <div
+                className={
+                    'date-box ' +
+                    (props.date.getFullYear() !== props.year
+                        ? 'not-this-year'
+                        : null)
+                }
+            ></div>
         </OverlayTrigger>
     );
 };

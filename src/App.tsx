@@ -6,7 +6,7 @@ import YearlyCalendar from './components/YearlyCalendar/YearlyCalendar';
 import { Card, Container } from 'react-bootstrap';
 
 function App() {
-    const year = 2022; //TODO
+    const year: number = 2022; //TODO
 
     return (
         <div className="App">
@@ -14,7 +14,7 @@ function App() {
             <Container>
                 <Card className="mt-3">
                     <Card.Body>
-                        <YearlyCalendar year="2022" />
+                        <YearlyCalendar year={year} />
                     </Card.Body>
                 </Card>
                 <Card className="mt-3">

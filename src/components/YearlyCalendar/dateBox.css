@@ -1,5 +1,11 @@
 .date-box {
     background: rgb(224, 224, 224);
     border: solid rgb(200, 200, 200) 1px;
-    border-radius: 5px;
+    border-radius: 3px;
+    width: 15px;
+    height: 15px;
+}
+
+.date-box.not-this-year {
+    opacity: 50%;
 }
