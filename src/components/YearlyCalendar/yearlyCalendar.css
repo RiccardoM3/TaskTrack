@@ -5,8 +5,8 @@
 .yearly-calendar .grid-container {
     display: inline-grid;
     gap: 4px;
-    grid-template-columns: auto repeat(52, 15px);
-    grid-template-rows: repeat(7, 15px);
+    grid-template-columns: auto repeat(52, auto);
+    grid-template-rows: repeat(7, auto);
     grid-auto-flow: column;
     font-size: 0.7em;
 }

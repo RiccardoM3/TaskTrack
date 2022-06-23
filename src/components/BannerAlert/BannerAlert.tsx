@@ -1,10 +1,9 @@
 import React from 'react';
+import './bannerAlert.css';
 
 type BannerAlert =
     | 'primary'
     | 'secondary'
-    | 'dark'
-    | 'light'
     | 'success'
     | 'warning'
     | 'danger'
@@ -20,7 +19,7 @@ function BannerAlert(props: Props) {
         <div
             className={
                 'd-block w-100 m-0 text-center ' +
-                (props.variant != null ? 'bg-' + props.variant : null)
+                (props.variant != null ? 'bg-lt-' + props.variant : null)
             }
         >
             {props.children}

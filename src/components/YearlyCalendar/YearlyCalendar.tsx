@@ -59,8 +59,8 @@ function YearlyCalendar(props: Props) {
 }
 
 function getDaysInYear(year: number): Date[] {
-    var date: Date = new Date(year, 0, 1);
-    var days = [];
+    let date: Date = new Date(year, 0, 1);
+    let days = [];
 
     //Fill in the days prior to the year that are in the same week
     date.setDate(date.getDate() - 1);

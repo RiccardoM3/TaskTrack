@@ -5,8 +5,8 @@ import './header.css';
 function Header() {
     return (
         <header>
-            <nav>Progress</nav>
-            <BannerAlert variant="warning">
+            <nav>TaskTrack</nav>
+            <BannerAlert variant="success">
                 Your data is stored on this computer. You can login to backup
                 and save your data across multiple computers X
             </BannerAlert>
