@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import DateBox from './DateBox';
 import './yearlyCalendar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'; // <-- import styles to be used
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 type Props = {
     year: number;
