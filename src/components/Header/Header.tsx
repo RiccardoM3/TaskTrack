@@ -5,11 +5,15 @@ import './header.css';
 function Header() {
     return (
         <header>
-            <nav>TaskTrack</nav>
-            <BannerAlert variant="success">
-                Your data is stored on this computer. You can login to backup
-                and save your data across multiple computers X
-            </BannerAlert>
+            <nav>
+                <img
+                    src="/icon.svg"
+                    height="30"
+                    alt="TaskTrack Logo"
+                    className="bg-light me-2 rounded"
+                ></img>
+                TaskTrack
+            </nav>
         </header>
     );
 }

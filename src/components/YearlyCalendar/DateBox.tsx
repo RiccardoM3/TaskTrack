@@ -49,7 +49,12 @@ const DateBox = (props: Props) => {
             placement="right"
             overlay={
                 <Tooltip id={`tooltip-` + props.date.getTime()}>
-                    {props.date.toLocaleString()}
+                    {props.date.toLocaleDateString('en-au', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric'
+                    })}
                 </Tooltip>
             }
         >

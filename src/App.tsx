@@ -10,18 +10,20 @@ import {
     Container,
     Form,
     FormCheck,
+    ProgressBar,
     Row
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import ProgressCardHeader from './components/ProgressCardHeader/ProgressCardHeader';
 
 function App() {
     const year: number = 2022; //TODO
 
     const dailyGoals = [
-        { id: 1, description: 'Work on TaskTrack', percentage: 29 },
-        { id: 2, description: 'Go Gym', percentage: 29 },
-        { id: 3, description: 'Study', percentage: 29 }
+        { id: 1, description: 'Work on TaskTrack', percentage: 59 },
+        { id: 2, description: 'Go Gym', percentage: 81 },
+        { id: 3, description: 'Study', percentage: 93 }
     ];
 
     const dayGoals = {
@@ -31,9 +33,10 @@ function App() {
             { id: 2, description: 'Go Gym', complete: false },
             { id: 3, description: 'Study', complete: false }
         ],
-        extraTasks: [{ id: 1, description: 'Message someone', complete: false }]
+        extraTasks: [{ id: 4, description: 'Message someone', complete: false }]
     };
 
+    let day = new Date();
     let dayTasks = [...dayGoals.everyDayTasks, ...dayGoals.extraTasks];
 
     return (
@@ -48,6 +51,12 @@ function App() {
                                 return (
                                     <Row key={goal.id}>
                                         <Col>{goal.description}</Col>
+                                        <Col>
+                                            <ProgressBar
+                                                variant="success"
+                                                now={goal.percentage}
+                                            />
+                                        </Col>
                                         <Col>{goal.percentage}%</Col>
                                     </Row>
                                 );
@@ -58,23 +67,50 @@ function App() {
                     </Card.Body>
                 </Card>
                 <Card className="mt-3">
-                    <Card.Header>
-                        Tuesday 27/06/2020 =====================/===========
-                    </Card.Header>
+                    <ProgressCardHeader
+                        now={
+                            (dayTasks.filter((e) => {
+                                return e.complete;
+                            }).length /
+                                dayTasks.length) *
+                            100
+                        }
+                        label={
+                            'Tasks for ' +
+                            day.toLocaleDateString('en-au', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'numeric',
+                                day: 'numeric'
+                            })
+                        }
+                    />
                     <Card.Body>
-                        <div>Tasks</div>
                         <Form>
                             {dayTasks.map((goal) => {
                                 return (
-                                    <FormCheck
-                                        label={goal.description}
-                                        name={'task-' + goal.id}
-                                        checked={goal.complete}
-                                    ></FormCheck>
+                                    <Card className="mb-2">
+                                        <Card.Body className="py-2">
+                                            <FormCheck
+                                                label={goal.description}
+                                                name={'task-' + goal.id}
+                                                checked={goal.complete}
+                                                key={goal.id}
+                                                className="m-0"
+                                                onChange={(e) => {
+                                                    goal.complete =
+                                                        e.target.value === 'on';
+                                                }}
+                                            ></FormCheck>
+                                        </Card.Body>
+                                    </Card>
                                 );
                             })}
-                            <Button variant="success" size="sm">
-                                <FontAwesomeIcon icon={solid('plus-circle')} />
+                            <Button variant="success">
+                                <FontAwesomeIcon
+                                    icon={solid('plus-circle')}
+                                    className="me-1"
+                                />
                                 Add new task for today
                             </Button>
                         </Form>

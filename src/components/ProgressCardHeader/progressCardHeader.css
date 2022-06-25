@@ -1,0 +1,13 @@
+.progress.card-header-progress {
+    height: 40px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.progress.card-header-progress .progress-bar {
+    color: black;
+    font-size: 17px;
+    overflow: visible;
+    background-color: rgb(136, 221, 157);
+    text-align: left;
+}
