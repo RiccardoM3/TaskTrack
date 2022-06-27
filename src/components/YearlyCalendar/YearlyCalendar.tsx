@@ -7,6 +7,7 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 type Props = {
     year: number;
+    onDateChange?: (newDate: Date) => void;
 };
 
 function YearlyCalendar(props: Props) {
@@ -50,6 +51,11 @@ function YearlyCalendar(props: Props) {
                             year={year}
                             date={date}
                             key={date.toString()}
+                            onClick={() => {
+                                if (props.onDateChange !== undefined) {
+                                    props.onDateChange(date);
+                                }
+                            }}
                         ></DateBox>
                     );
                 })}

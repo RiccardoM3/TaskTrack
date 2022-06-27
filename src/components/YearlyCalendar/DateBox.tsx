@@ -4,6 +4,7 @@ import './dateBox.css';
 type Props = {
     year: Number;
     date: Date;
+    onClick: () => void;
 };
 
 /**
@@ -58,7 +59,7 @@ const DateBox = (props: Props) => {
                 </Tooltip>
             }
         >
-            <div className={classes}></div>
+            <div className={classes} onClick={props.onClick}></div>
         </OverlayTrigger>
     );
 };
