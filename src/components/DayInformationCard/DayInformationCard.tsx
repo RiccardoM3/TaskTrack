@@ -3,6 +3,7 @@ import { Button, Card, Form, FormCheck } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import ProgressCardHeader from '../ProgressCardHeader/ProgressCardHeader';
+import CheckboxItem from './CheckboxItem';
 
 type Props = {
     day: Date;
@@ -51,28 +52,26 @@ function DayInformationCard({ day }: Props) {
                 <Form>
                     {dayTasks.map((goal) => {
                         return (
-                            <Card className="mb-2" key={goal.id}>
-                                <Card.Body className="py-2">
-                                    <FormCheck
-                                        label={goal.description}
-                                        name={'task-' + goal.id}
-                                        checked={goal.complete}
-                                        className="m-0"
-                                        onChange={(e) => {
-                                            let dayTask = dayTasks.filter((el) => {
-                                                return el.id === goal.id;
-                                            });
-                                            if (dayTask.length > 0) {
-                                                dayTask[0].complete = e.target.checked;
-                                                setDayTasks([...dayTasks]);
-                                            }
-                                        }}
-                                    ></FormCheck>
-                                </Card.Body>
-                            </Card>
+                            <CheckboxItem key={goal.id}>
+                                <FormCheck
+                                    label={goal.description}
+                                    name={'task-' + goal.id}
+                                    checked={goal.complete}
+                                    className="m-0"
+                                    onChange={(e) => {
+                                        let dayTask = dayTasks.filter((el) => {
+                                            return el.id === goal.id;
+                                        });
+                                        if (dayTask.length > 0) {
+                                            dayTask[0].complete = e.target.checked;
+                                            setDayTasks([...dayTasks]);
+                                        }
+                                    }}
+                                ></FormCheck>
+                            </CheckboxItem>
                         );
                     })}
-                    <Button variant="success">
+                    <Button variant="success" onClick={() => {}}>
                         <FontAwesomeIcon icon={solid('plus-circle')} className="me-1" />
                         Add new task for today
                     </Button>

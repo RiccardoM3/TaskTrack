@@ -23,7 +23,7 @@ function App() {
             <Container>
                 <Card className="mt-3">
                     <Card.Body>
-                        <h4>Your Every-Day Goals</h4>
+                        <h4>Your Recurring Goals</h4>
                         <div className="pb-4">
                             {dailyGoals.map((goal) => {
                                 return (
