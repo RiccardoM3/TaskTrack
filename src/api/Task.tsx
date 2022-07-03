@@ -1,35 +1,33 @@
-class Task {
-    id: number;
+type Task = {
+    id: string;
     description: string;
-
-    constructor(id: number, description: string) {
-        this.id = id;
-        this.description = description;
-    }
-}
-
-class DailyTask {
-    task: Task;
-    date: Date;
     complete: boolean;
+};
 
-    constructor(task: Task, date: Date, complete: boolean) {
-        this.task = task;
+class DateTasks {
+    private date: Date;
+    private tasks: Task[];
+
+    constructor(date: Date, tasks: Task[]) {
         this.date = date;
-        this.complete = complete;
+        this.tasks = tasks;
     }
 }
 
 class RecurringTask {
-    task: Task;
-    startDate: Date;
-    endDate: Date;
+    private task: Task;
+    private startDate: Date;
+    private endDate: Date;
 
     constructor(task: Task, startDate: Date, endDate: Date) {
         this.task = task;
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public serialise = (): string => {
+        return JSON.stringify({ i: this.task, s: this.startDate, e: this.endDate });
+    };
 }
 
-export { Task, DailyTask, RecurringTask };
+export { type Task, DateTasks, RecurringTask };

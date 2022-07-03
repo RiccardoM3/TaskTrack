@@ -1,53 +1,63 @@
 import { Task } from './Task';
+import TaskLocalStorageRepository from './TaskLocalStorageRepository';
+import TaskAPIRepository from './TaskAPIRepository';
 
 class TaskController {
     static loggedIn: boolean = false;
 
-    static getTasksForDay(): Task[] {
+    static getActiveRecurringTasks() {
         if (this.loggedIn) {
-            return [];
+            return TaskAPIRepository.getActiveRecurringTasks();
         } else {
-            return [];
+            return TaskLocalStorageRepository.getActiveRecurringTasks();
         }
     }
 
-    static getRecurringTasks() {
+    static addRecurringTask(description: string): Task {
         if (this.loggedIn) {
-            return [];
+            return TaskAPIRepository.addRecurringTask(description);
         } else {
-            return [];
+            return TaskLocalStorageRepository.addRecurringTask(description);
         }
     }
 
-    static addRecurringTask() {
+    static removeRecurringTask(taskId: string) {
         if (this.loggedIn) {
-            return [];
+            return TaskAPIRepository.removeRecurringTask(taskId);
         } else {
-            return [];
+            return TaskLocalStorageRepository.removeRecurringTask(taskId);
         }
     }
 
-    static removeRecurringTask() {
+    static getTasksForDate(day: Date): Task[] {
         if (this.loggedIn) {
-            return [];
+            return TaskAPIRepository.getTasksForDate(day);
         } else {
-            return [];
+            return TaskLocalStorageRepository.getTasksForDate(day);
         }
     }
 
-    static addTaskToDay() {
+    static addTaskToDate(date: Date, description: string): Task {
         if (this.loggedIn) {
-            return [];
+            return TaskAPIRepository.addTaskToDate(date, description);
         } else {
-            return [];
+            return TaskLocalStorageRepository.addTaskToDate(date, description);
         }
     }
 
-    static removeTaskFromDay() {
+    static removeTaskFromDate(date: Date, taskId: string) {
         if (this.loggedIn) {
-            return [];
+            return TaskAPIRepository.removeTaskFromDate(date, taskId);
         } else {
-            return [];
+            return TaskLocalStorageRepository.removeTaskFromDate(date, taskId);
+        }
+    }
+
+    static setTaskCompleteForDate(date: Date, taskId: string, complete: boolean) {
+        if (this.loggedIn) {
+            return TaskAPIRepository.setTaskCompleteForDate(date, taskId, complete);
+        } else {
+            return TaskLocalStorageRepository.setTaskCompleteForDate(date, taskId, complete);
         }
     }
 }
