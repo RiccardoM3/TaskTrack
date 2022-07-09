@@ -13,11 +13,11 @@ class TaskController {
         }
     }
 
-    static addRecurringTask(description: string): Task {
+    static addRecurringTask(description: string, startDate: Date, endDate: Date): Task {
         if (this.loggedIn) {
             return TaskAPIRepository.addRecurringTask(description);
         } else {
-            return TaskLocalStorageRepository.addRecurringTask(description);
+            return TaskLocalStorageRepository.addRecurringTask(description, startDate, endDate);
         }
     }
 
