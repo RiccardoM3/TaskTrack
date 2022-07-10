@@ -1,0 +1,45 @@
+select.day-picker {
+    display: block;
+    height: 50px;
+    overflow: auto;
+    border-radius: 0;
+    border: none;
+}
+
+select optgroup {
+    display: block;
+    height: 50px;
+}
+
+select.day-picker:focus {
+    color: black;
+    border-radius: 0;
+    outline: none;
+}
+
+select.day-picker option {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    color: black;
+    background: #ebebeb;
+    padding: 0;
+    vertical-align: middle;
+    font-size: 18px !important;
+    line-height: 50px;
+}
+
+select.day-picker option::before {
+    content: '';
+}
+
+select.day-picker option:not(:last-child) {
+    margin-right: 20px;
+}
+
+select.day-picker option:checked {
+    color: black !important;
+    background: #8ef78e linear-gradient(0deg, #8ef78e 0%, #8ef78e 100%);
+}
