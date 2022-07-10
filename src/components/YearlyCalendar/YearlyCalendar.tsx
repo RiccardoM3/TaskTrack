@@ -20,6 +20,7 @@ function YearlyCalendar(props: Props) {
                 <Button
                     variant="secondary"
                     size="sm"
+                    className="align-top"
                     onClick={() => {
                         setYear(year - 1);
                     }}
@@ -30,6 +31,7 @@ function YearlyCalendar(props: Props) {
                 <Button
                     variant="secondary"
                     size="sm"
+                    className="align-top"
                     onClick={() => {
                         setYear(year + 1);
                     }}
