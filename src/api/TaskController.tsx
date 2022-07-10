@@ -1,15 +1,23 @@
-import { Task } from './Task';
+import { RecurringTask, Task } from './Task';
 import TaskLocalStorageRepository from './TaskLocalStorageRepository';
 import TaskAPIRepository from './TaskAPIRepository';
 
 class TaskController {
     static loggedIn: boolean = false;
 
-    static getActiveRecurringTasks() {
+    static getAllActiveRecurringTasks(): RecurringTask[] {
         if (this.loggedIn) {
-            return TaskAPIRepository.getActiveRecurringTasks();
+            return TaskAPIRepository.getAllActiveRecurringTasks();
         } else {
-            return TaskLocalStorageRepository.getActiveRecurringTasks();
+            return TaskLocalStorageRepository.getAllActiveRecurringTasks();
+        }
+    }
+
+    static getAllInactiveRecurringTasks(): RecurringTask[] {
+        if (this.loggedIn) {
+            return TaskAPIRepository.getAllInactiveRecurringTasks();
+        } else {
+            return TaskLocalStorageRepository.getAllInactiveRecurringTasks();
         }
     }
 

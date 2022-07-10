@@ -1,10 +1,16 @@
-import { Task } from './Task';
+import { RecurringTask, Task } from './Task';
 
 /**
  * This repository will send api requests to the backend to update task data, once I create a backend
  */
 class TaskAPIRepository {
-    static getActiveRecurringTasks() {}
+    static getAllActiveRecurringTasks(): RecurringTask[] {
+        return [];
+    }
+
+    static getAllInactiveRecurringTasks(): RecurringTask[] {
+        return [];
+    }
 
     static addRecurringTask(description: string): Task {
         let newTask: Task = { id: '', description: description, complete: false };

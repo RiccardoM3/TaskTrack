@@ -13,6 +13,22 @@ class TaskLocalStorageRepository {
         return JSON.parse(recurringTaskData);
     }
 
+    static getAllActiveRecurringTasks(): RecurringTask[] {
+        let recurringTasks: RecurringTask[] = TaskLocalStorageRepository.getAllRecurringTasks();
+        const currentDate = new Date();
+        return recurringTasks.filter((item) => {
+            return item.startDate < currentDate && currentDate < item.endDate;
+        });
+    }
+
+    static getAllInactiveRecurringTasks(): RecurringTask[] {
+        let recurringTasks: RecurringTask[] = TaskLocalStorageRepository.getAllRecurringTasks();
+        const currentDate = new Date();
+        return recurringTasks.filter((item) => {
+            return !(item.startDate < currentDate && currentDate < item.endDate);
+        });
+    }
+
     static addRecurringTask(description: string, startDate: Date, endDate: Date): Task {
         let newTask: Task = { id: '', description: description, complete: false };
         let newRecurringTask: RecurringTask = {

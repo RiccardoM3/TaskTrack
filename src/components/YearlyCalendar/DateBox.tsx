@@ -21,24 +21,13 @@ const DateBox = (props: Props) => {
         classes += 'not-this-year ';
     }
 
-    let lastDayOfMonth = new Date(
-        props.date.getFullYear(),
-        props.date.getMonth() + 1,
-        0
-    );
+    let lastDayOfMonth = new Date(props.date.getFullYear(), props.date.getMonth() + 1, 0);
 
-    if (
-        lastDayOfMonth.getDate() - props.date.getDate() <
-        getTrueDay(lastDayOfMonth) - getTrueDay(props.date)
-    ) {
+    if (lastDayOfMonth.getDate() - props.date.getDate() < getTrueDay(lastDayOfMonth) - getTrueDay(props.date)) {
         classes += 'me-2 ';
     }
 
-    let firstDayOfMonth = new Date(
-        props.date.getFullYear(),
-        props.date.getMonth(),
-        1
-    );
+    let firstDayOfMonth = new Date(props.date.getFullYear(), props.date.getMonth(), 1);
 
     if (props.date.getDate() <= 7 - getTrueDay(firstDayOfMonth)) {
         classes += 'ms-2 ';

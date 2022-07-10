@@ -1,4 +1,3 @@
-import React from 'react';
 import './progressCardHeader.css';
 
 import { Card, ProgressBar } from 'react-bootstrap';
