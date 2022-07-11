@@ -1,32 +1,36 @@
+import { useState } from 'react';
 import './DayPicker.css';
 
 function DayPicker() {
+    let [pickedDays, setPickedDays] = useState([1, 2, 3, 4, 5, 6, 7]);
+    const dayNames: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    const toggleSelected = (day: number) => {
+        if (pickedDays.includes(day)) {
+            pickedDays = pickedDays.filter((e) => {
+                return e !== day;
+            });
+        } else {
+            pickedDays.push(day);
+        }
+        setPickedDays([...pickedDays]);
+    };
+
     return (
-        <select multiple className="day-picker">
-            <optgroup>
-                <option value="1" selected>
-                    Mon
-                </option>
-                <option value="2" selected>
-                    Tue
-                </option>
-                <option value="3" selected>
-                    Wed
-                </option>
-                <option value="4" selected>
-                    Thu
-                </option>
-                <option value="5" selected>
-                    Fri
-                </option>
-                <option value="6" selected>
-                    Sat
-                </option>
-                <option value="7" selected>
-                    Sun
-                </option>
-            </optgroup>
-        </select>
+        <div className="day-picker">
+            {dayNames.map((dayName: string, index: number) => {
+                return (
+                    <div
+                        className={'day-picker-el' + (pickedDays.includes(index) ? ' selected' : '')}
+                        onClick={() => {
+                            toggleSelected(index);
+                        }}
+                    >
+                        {dayName}
+                    </div>
+                );
+            })}
+        </div>
     );
 }
 

@@ -1,45 +1,30 @@
-select.day-picker {
+.day-picker {
     display: block;
-    height: 50px;
-    overflow: auto;
-    border-radius: 0;
-    border: none;
+    height: 40px;
 }
 
-select optgroup {
-    display: block;
-    height: 50px;
-}
-
-select.day-picker:focus {
-    color: black;
-    border-radius: 0;
-    outline: none;
-}
-
-select.day-picker option {
+.day-picker .day-picker-el {
     display: inline-block;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    text-align: center;
     color: black;
     background: #ebebeb;
-    padding: 0;
-    vertical-align: middle;
-    font-size: 18px !important;
-    line-height: 50px;
+    border: solid 1px rgb(158, 158, 158);
+    text-align: center;
+    font-size: 15px;
+    line-height: 40px;
+    box-sizing: content-box;
+    transition: 0.25s;
+    user-select: none;
 }
 
-select.day-picker option::before {
-    content: '';
+.day-picker .day-picker-el:not(:last-child) {
+    margin-right: 18px;
 }
 
-select.day-picker option:not(:last-child) {
-    margin-right: 20px;
-}
-
-select.day-picker option:checked {
-    color: black !important;
-    background: #8ef78e linear-gradient(0deg, #8ef78e 0%, #8ef78e 100%);
+.day-picker .day-picker-el.selected {
+    background: #8ef78e;
+    border: solid 1px rgb(0, 199, 0);
+    transition: 0.25s;
 }
