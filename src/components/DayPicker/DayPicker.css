@@ -20,11 +20,11 @@
 }
 
 .day-picker .day-picker-el:not(:last-child) {
-    margin-right: 18px;
+    margin-right: 12px;
 }
 
 .day-picker .day-picker-el.selected {
     background: #8ef78e;
     border: solid 1px rgb(0, 199, 0);
-    transition: 0.25s;
+    transition: 0.35s;
 }

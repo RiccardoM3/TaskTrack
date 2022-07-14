@@ -10,14 +10,19 @@ class TaskLocalStorageRepository {
             return [];
         }
 
-        return JSON.parse(recurringTaskData);
+        let recurringTasks = JSON.parse(recurringTaskData);
+        return recurringTasks.map((item: any) => {
+            item.startDate = new Date(item.startDate);
+            item.endDate = new Date(item.endDate);
+            return item;
+        });
     }
 
     static getAllActiveRecurringTasks(): RecurringTask[] {
         let recurringTasks: RecurringTask[] = TaskLocalStorageRepository.getAllRecurringTasks();
         const currentDate = new Date();
         return recurringTasks.filter((item) => {
-            return item.startDate < currentDate && currentDate < item.endDate;
+            return item.startDate <= currentDate && currentDate <= item.endDate;
         });
     }
 
@@ -25,12 +30,21 @@ class TaskLocalStorageRepository {
         let recurringTasks: RecurringTask[] = TaskLocalStorageRepository.getAllRecurringTasks();
         const currentDate = new Date();
         return recurringTasks.filter((item) => {
-            return !(item.startDate < currentDate && currentDate < item.endDate);
+            return !(item.startDate <= currentDate && currentDate <= item.endDate);
         });
     }
 
     static addRecurringTask(description: string, startDate: Date, endDate: Date): Task {
-        let newTask: Task = { id: '', description: description, complete: false };
+        startDate.setHours(0);
+        startDate.setMinutes(0);
+        startDate.setSeconds(0);
+        startDate.setMilliseconds(0);
+        endDate.setHours(23);
+        endDate.setMinutes(59);
+        endDate.setSeconds(59);
+        endDate.setMilliseconds(999);
+
+        let newTask: Task = { id: uuid(), description: description, complete: false };
         let newRecurringTask: RecurringTask = {
             task: newTask,
             startDate: startDate,

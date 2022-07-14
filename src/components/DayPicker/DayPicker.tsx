@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import './DayPicker.css';
 
-function DayPicker() {
-    let [pickedDays, setPickedDays] = useState([1, 2, 3, 4, 5, 6, 7]);
+type Props = {
+    onChange?: (newValue: number[]) => void;
+};
+
+function DayPicker({ onChange }: Props) {
+    let [pickedDays, setPickedDays] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]);
     const dayNames: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
     const toggleSelected = (day: number) => {
@@ -19,11 +23,13 @@ function DayPicker() {
     return (
         <div className="day-picker">
             {dayNames.map((dayName: string, index: number) => {
+                let dayIndex = index + 1;
                 return (
                     <div
-                        className={'day-picker-el' + (pickedDays.includes(index) ? ' selected' : '')}
+                        key={dayIndex}
+                        className={'day-picker-el' + (pickedDays.includes(dayIndex) ? ' selected' : '')}
                         onClick={() => {
-                            toggleSelected(index);
+                            toggleSelected(dayIndex);
                         }}
                     >
                         {dayName}
