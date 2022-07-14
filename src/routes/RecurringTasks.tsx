@@ -13,7 +13,7 @@ function RecurringTasks() {
     const [tabKey, setTabKey] = useState<string | null>('active');
     const [description, setDescription] = useState<string>('');
     const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date | null>(null);
     const [daysPicked, setDaysPicked] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]);
     const [showModal, setShowModal] = useState(false);
 
@@ -29,8 +29,11 @@ function RecurringTasks() {
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
 
-    const handleSubmit = () => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         TaskController.addRecurringTask(description, startDate, endDate);
+        setRecurringTasks(TaskController.getAllActiveRecurringTasks());
+        setInactiveRecurringTasks(TaskController.getAllInactiveRecurringTasks());
         handleClose();
     };
 
@@ -48,14 +51,9 @@ function RecurringTasks() {
                     New Recurring Task
                 </Button>
 
-                <div className="clearfix" />
+                <div className="clearfix mb-3" />
 
-                <Tabs
-                    id="controlled-tab-example"
-                    activeKey={tabKey ?? 'active'}
-                    onSelect={(k) => setTabKey(k)}
-                    className=""
-                >
+                <Tabs id="controlled-tab-example" activeKey={tabKey ?? 'active'} onSelect={(k) => setTabKey(k)}>
                     <Tab eventKey="active" title="Active">
                         <Table striped bordered>
                             <thead>
@@ -68,9 +66,7 @@ function RecurringTasks() {
                             <tbody>
                                 {recurringTasks.length === 0 && (
                                     <tr>
-                                        <td>No active recurring tasks</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colSpan={3}>No active recurring tasks</td>
                                     </tr>
                                 )}
                                 {recurringTasks.map((recurringTask) => {
@@ -78,7 +74,11 @@ function RecurringTasks() {
                                         <tr key={recurringTask.task.id}>
                                             <td>{recurringTask.task.description}</td>
                                             <td>{recurringTask.startDate.toLocaleDateString()}</td>
-                                            <td>{recurringTask.endDate.toLocaleDateString()}</td>
+                                            <td>
+                                                {recurringTask.endDate
+                                                    ? recurringTask.endDate.toLocaleDateString()
+                                                    : null}
+                                            </td>
                                         </tr>
                                     );
                                 })}
@@ -97,9 +97,7 @@ function RecurringTasks() {
                             <tbody>
                                 {inactiveRecurringTasks.length === 0 && (
                                     <tr>
-                                        <td>No inactive recurring tasks</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colSpan={3}>No inactive recurring tasks</td>
                                     </tr>
                                 )}
                                 {inactiveRecurringTasks.map((recurringTask) => {
@@ -107,7 +105,11 @@ function RecurringTasks() {
                                         <tr key={recurringTask.task.id}>
                                             <td>{recurringTask.task.description}</td>
                                             <td>{recurringTask.startDate.toLocaleDateString()}</td>
-                                            <td>{recurringTask.endDate.toLocaleDateString()}</td>
+                                            <td>
+                                                {recurringTask.endDate
+                                                    ? recurringTask.endDate.toLocaleDateString()
+                                                    : null}
+                                            </td>
                                         </tr>
                                     );
                                 })}
@@ -118,16 +120,17 @@ function RecurringTasks() {
             </Card.Body>
 
             <Modal size="lg" centered show={showModal} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>New Recurring Task</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
+                <Form onSubmit={handleSubmit}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>New Recurring Task</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
                         <Form.Group className="mb-3" controlId="description">
                             <Form.Label>Task Description</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Description"
+                                required
                                 onChange={(e) => {
                                     setDescription(e.currentTarget.value);
                                 }}
@@ -141,7 +144,8 @@ function RecurringTasks() {
                                     <Form.Control
                                         type="date"
                                         placeholder="Enter email"
-                                        value={new Date().toISOString().substring(0, 10)}
+                                        defaultValue={new Date().toISOString().substring(0, 10)}
+                                        required
                                         onChange={(e) => {
                                             setStartDate(new Date(e.currentTarget.value));
                                         }}
@@ -166,16 +170,16 @@ function RecurringTasks() {
                             <Form.Label>Days</Form.Label>
                             <DayPicker onChange={onDaysPickedChanged} />
                         </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="success" onClick={handleSubmit}>
-                        Add
-                    </Button>
-                </Modal.Footer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Cancel
+                        </Button>
+                        <Button variant="success" type="submit">
+                            Add
+                        </Button>
+                    </Modal.Footer>
+                </Form>
             </Modal>
         </Card>
     );

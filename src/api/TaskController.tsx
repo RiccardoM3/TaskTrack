@@ -21,7 +21,7 @@ class TaskController {
         }
     }
 
-    static addRecurringTask(description: string, startDate: Date, endDate: Date): Task {
+    static addRecurringTask(description: string, startDate: Date, endDate: Date | null): Task {
         if (this.loggedIn) {
             return TaskAPIRepository.addRecurringTask(description);
         } else {

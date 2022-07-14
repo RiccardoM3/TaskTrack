@@ -13,7 +13,9 @@ class TaskLocalStorageRepository {
         let recurringTasks = JSON.parse(recurringTaskData);
         return recurringTasks.map((item: any) => {
             item.startDate = new Date(item.startDate);
-            item.endDate = new Date(item.endDate);
+            if (item.endDate != null) {
+                item.endDate = new Date(item.endDate);
+            }
             return item;
         });
     }
@@ -22,7 +24,7 @@ class TaskLocalStorageRepository {
         let recurringTasks: RecurringTask[] = TaskLocalStorageRepository.getAllRecurringTasks();
         const currentDate = new Date();
         return recurringTasks.filter((item) => {
-            return item.startDate <= currentDate && currentDate <= item.endDate;
+            return item.startDate <= currentDate && (item.endDate == null || currentDate <= item.endDate);
         });
     }
 
@@ -30,19 +32,21 @@ class TaskLocalStorageRepository {
         let recurringTasks: RecurringTask[] = TaskLocalStorageRepository.getAllRecurringTasks();
         const currentDate = new Date();
         return recurringTasks.filter((item) => {
-            return !(item.startDate <= currentDate && currentDate <= item.endDate);
+            return !(item.startDate <= currentDate && (item.endDate == null || currentDate <= item.endDate));
         });
     }
 
-    static addRecurringTask(description: string, startDate: Date, endDate: Date): Task {
+    static addRecurringTask(description: string, startDate: Date, endDate: Date | null): Task {
         startDate.setHours(0);
         startDate.setMinutes(0);
         startDate.setSeconds(0);
         startDate.setMilliseconds(0);
-        endDate.setHours(23);
-        endDate.setMinutes(59);
-        endDate.setSeconds(59);
-        endDate.setMilliseconds(999);
+        if (endDate) {
+            endDate.setHours(23);
+            endDate.setMinutes(59);
+            endDate.setSeconds(59);
+            endDate.setMilliseconds(999);
+        }
 
         let newTask: Task = { id: uuid(), description: description, complete: false };
         let newRecurringTask: RecurringTask = {

@@ -17,7 +17,7 @@ class DateTasks {
 type RecurringTask = {
     task: Task;
     startDate: Date;
-    endDate: Date;
+    endDate: Date | null;
     completePeriods: Date[][];
 };
 
