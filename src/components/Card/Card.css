@@ -1,0 +1,22 @@
+.custom-card {
+    background: white;
+    border-radius: 24px;
+    margin-top: 1rem;
+}
+
+.custom-card.bordered {
+    border: solid 1px rgb(173, 173, 173);
+}
+
+.custom-card > .custom-card-header {
+    font-size: 1.3em;
+    font-weight: 400;
+    text-align: center;
+    color: white;
+    background: rgb(0, 156, 26);
+    border-radius: 24px 24px 0 0;
+    padding: 0.5rem 0;
+}
+.custom-card > .custom-card-body {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+}

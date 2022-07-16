@@ -1,8 +1,9 @@
-import { Button } from 'react-bootstrap';
+import { Button, Col, InputGroup, Row } from 'react-bootstrap';
 import DateBox from './DateBox';
 import './yearlyCalendar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { Link } from 'react-router-dom';
 
 type Props = {
     year: number;
@@ -15,29 +16,36 @@ function YearlyCalendar({ year, setYear, selectedDay, setSelectedDay }: Props) {
     const days: Date[] = getDaysInYear(year);
     return (
         <div className="yearly-calendar">
-            <div className="mb-2">
-                <Button
-                    variant="secondary"
-                    size="sm"
-                    className="align-top"
-                    onClick={() => {
-                        setYear(year - 1);
-                    }}
-                >
-                    <FontAwesomeIcon icon={solid('chevron-left')} />
-                </Button>
-                <h4 className="d-inline px-3">{year}</h4>
-                <Button
-                    variant="secondary"
-                    size="sm"
-                    className="align-top"
-                    onClick={() => {
-                        setYear(year + 1);
-                    }}
-                >
-                    <FontAwesomeIcon icon={solid('chevron-right')} />
-                </Button>
-            </div>
+            <Row>
+                <Col></Col>
+                <Col>
+                    <InputGroup className="mb-3 justify-content-center">
+                        <Button
+                            variant="secondary"
+                            onClick={() => {
+                                setYear(year - 1);
+                            }}
+                        >
+                            <FontAwesomeIcon icon={solid('chevron-left')} />
+                        </Button>
+                        <InputGroup.Text style={{ fontSize: '18px' }}>{year}</InputGroup.Text>
+                        <Button
+                            variant="secondary"
+                            onClick={() => {
+                                setYear(year + 1);
+                            }}
+                        >
+                            <FontAwesomeIcon icon={solid('chevron-right')} />
+                        </Button>
+                    </InputGroup>
+                </Col>
+                <Col>
+                    <Link to="/statistics" className="btn btn-success float-end">
+                        <FontAwesomeIcon icon={solid('chart-column')} /> View Stats
+                    </Link>
+                </Col>
+            </Row>
+
             <div className="calendar-container">
                 <div className="grid-container">
                     <div className="">Mon</div>

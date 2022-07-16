@@ -1,13 +1,13 @@
 .progress.card-header-progress {
     height: 40px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: 24px;
 }
 
 .progress.card-header-progress .progress-bar {
-    color: black;
+    color: rgb(46, 46, 46);
     font-size: 17px;
+    font-weight: 500;
     overflow: visible;
-    background-color: #adf7bf;
+    background-color: rgb(73 205 95);
     text-align: left;
 }

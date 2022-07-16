@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import Main from './routes/Main';
 import RecurringTasks from './routes/RecurringTasks';
 import PageNotFound from './routes/PageNotFound';
+import Statistics from './routes/Statistics';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Main />}></Route>
                     <Route path="/recurring-tasks" element={<RecurringTasks />}></Route>
+                    <Route path="/statistics" element={<Statistics />}></Route>
                     <Route path="*" element={<PageNotFound />}></Route>
                 </Routes>
             </Container>
