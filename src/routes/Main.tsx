@@ -7,7 +7,7 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Link } from 'react-router-dom';
 
 function Main() {
-    const year: number = new Date().getFullYear();
+    const [year, setYear] = useState<number>(new Date().getFullYear());
 
     const dailyGoals = [
         { id: 1, description: 'Work on TaskTrack', percentage: 59 },
@@ -15,7 +15,7 @@ function Main() {
         { id: 3, description: 'Study', percentage: 93 }
     ];
 
-    const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+    const [selectedDay, setSelectedDay] = useState<Date>(new Date());
 
     return (
         <>
@@ -24,9 +24,9 @@ function Main() {
                     <h4 className="text-center mb-2">Yearly Calendar</h4>
                     <YearlyCalendar
                         year={year}
-                        onDateChange={(newDate) => {
-                            setSelectedDay(newDate);
-                        }}
+                        setYear={setYear}
+                        selectedDay={selectedDay}
+                        setSelectedDay={setSelectedDay}
                     />
                 </Card.Body>
             </Card>

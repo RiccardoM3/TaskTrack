@@ -2,8 +2,9 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import './dateBox.css';
 
 type Props = {
-    year: Number;
+    year: number;
     date: Date;
+    selected: boolean;
     onClick: () => void;
 };
 
@@ -14,32 +15,38 @@ const getTrueDay = (date: Date) => {
     return (date.getDay() + 6) % 7;
 };
 
-const DateBox = (props: Props) => {
-    let classes = 'date-box ';
+const DateBox = ({ year, date, selected, onClick }: Props) => {
+    let classes = 'date-box';
 
-    if (props.date.getFullYear() !== props.year) {
-        classes += 'not-this-year ';
+    if (date.getFullYear() !== year) {
+        classes += ' not-this-year';
     }
 
-    let lastDayOfMonth = new Date(props.date.getFullYear(), props.date.getMonth() + 1, 0);
-
-    if (lastDayOfMonth.getDate() - props.date.getDate() < getTrueDay(lastDayOfMonth) - getTrueDay(props.date)) {
-        classes += 'me-2 ';
+    if (date.toDateString() === new Date().toDateString()) {
+        classes += ' today';
     }
 
-    let firstDayOfMonth = new Date(props.date.getFullYear(), props.date.getMonth(), 1);
+    if (selected) {
+        classes += ' selected';
+    }
 
-    if (props.date.getDate() <= 7 - getTrueDay(firstDayOfMonth)) {
-        classes += 'ms-2 ';
+    let lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    if (lastDayOfMonth.getDate() - date.getDate() < getTrueDay(lastDayOfMonth) - getTrueDay(date)) {
+        classes += ' me-2';
+    }
+
+    let firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    if (date.getDate() <= 7 - getTrueDay(firstDayOfMonth)) {
+        classes += ' ms-2';
     }
 
     return (
         <OverlayTrigger
-            key={props.date.getTime()}
+            key={date.getTime()}
             placement="right"
             overlay={
-                <Tooltip id={`tooltip-` + props.date.getTime()}>
-                    {props.date.toLocaleDateString('en-au', {
+                <Tooltip id={`tooltip-` + date.getTime()}>
+                    {date.toLocaleDateString('en-au', {
                         weekday: 'long',
                         year: 'numeric',
                         month: 'numeric',
@@ -48,7 +55,12 @@ const DateBox = (props: Props) => {
                 </Tooltip>
             }
         >
-            <div className={classes} onClick={props.onClick}></div>
+            <div
+                className={classes}
+                onClick={() => {
+                    onClick();
+                }}
+            ></div>
         </OverlayTrigger>
     );
 };

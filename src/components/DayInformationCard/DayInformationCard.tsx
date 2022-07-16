@@ -124,7 +124,7 @@ function DayInformationCard({ day }: Props) {
                                 setNewTaskOpen(false);
                             }}
                         >
-                            <FontAwesomeIcon icon={solid('circle-xmark')} />
+                            <FontAwesomeIcon icon={solid('xmark')} />
                         </Button>
                     </Form>
                 )}

@@ -9,3 +9,11 @@
 .date-box.not-this-year {
     opacity: 50%;
 }
+
+.date-box.selected {
+    border: solid #288b27 2px;
+}
+
+.date-box.today {
+    outline: solid #237921 1px;
+}

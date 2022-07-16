@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import DateBox from './DateBox';
 import './yearlyCalendar.css';
@@ -7,16 +6,16 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 type Props = {
     year: number;
-    onDateChange?: (newDate: Date) => void;
+    setYear: React.Dispatch<React.SetStateAction<number>>;
+    selectedDay: Date;
+    setSelectedDay: React.Dispatch<React.SetStateAction<Date>>;
 };
 
-function YearlyCalendar(props: Props) {
-    const [year, setYear] = useState(props.year);
-
+function YearlyCalendar({ year, setYear, selectedDay, setSelectedDay }: Props) {
     const days: Date[] = getDaysInYear(year);
     return (
         <div className="yearly-calendar">
-            <div className="">
+            <div className="mb-2">
                 <Button
                     variant="secondary"
                     size="sm"
@@ -39,28 +38,43 @@ function YearlyCalendar(props: Props) {
                     <FontAwesomeIcon icon={solid('chevron-right')} />
                 </Button>
             </div>
-            <div className="grid-container">
-                <div className="">Mon</div>
-                <div>Tues</div>
-                <div>Wed</div>
-                <div>Thur</div>
-                <div>Fri</div>
-                <div>Sat</div>
-                <div>Sun</div>
-                {days.map((date: Date) => {
-                    return (
-                        <DateBox
-                            year={year}
-                            date={date}
-                            key={date.toString()}
-                            onClick={() => {
-                                if (props.onDateChange !== undefined) {
-                                    props.onDateChange(date);
-                                }
-                            }}
-                        ></DateBox>
-                    );
-                })}
+            <div className="calendar-container">
+                <div className="grid-container">
+                    <div className="">Mon</div>
+                    <div>Tues</div>
+                    <div>Wed</div>
+                    <div>Thur</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                    <div>Sun</div>
+                    {days.map((date: Date) => {
+                        return (
+                            <DateBox
+                                year={year}
+                                date={date}
+                                key={date.getTime()}
+                                selected={date.toDateString() === selectedDay.toDateString()}
+                                onClick={() => {
+                                    setSelectedDay(date);
+                                }}
+                            ></DateBox>
+                        );
+                    })}
+                </div>
+                <div className="month-label-container">
+                    <div>Jan</div>
+                    <div>Feb</div>
+                    <div>Mar</div>
+                    <div>Apr</div>
+                    <div>May</div>
+                    <div>Jun</div>
+                    <div>Jul</div>
+                    <div>Aug</div>
+                    <div>Sep</div>
+                    <div>Oct</div>
+                    <div>Nov</div>
+                    <div>Dec</div>
+                </div>
             </div>
         </div>
     );
