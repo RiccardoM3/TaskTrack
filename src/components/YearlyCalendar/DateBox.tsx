@@ -42,10 +42,10 @@ const DateBox = ({ year, date, selected, onClick }: Props) => {
 
     return (
         <OverlayTrigger
-            key={date.getTime()}
+            key={date.toDateString()}
             placement="right"
             overlay={
-                <Tooltip id={`tooltip-` + date.getTime()}>
+                <Tooltip id={`tooltip-` + date.toDateString()}>
                     {date.toLocaleDateString('en-au', {
                         weekday: 'long',
                         year: 'numeric',

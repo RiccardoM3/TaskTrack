@@ -45,6 +45,14 @@ class TaskController {
         }
     }
 
+    static getRecurringTasksForDate(day: Date): RecurringTask[] {
+        if (this.loggedIn) {
+            return TaskAPIRepository.getRecurringTasksForDate(day);
+        } else {
+            return TaskLocalStorageRepository.getRecurringTasksForDate(day);
+        }
+    }
+
     static addTaskToDate(date: Date, description: string): Task {
         if (this.loggedIn) {
             return TaskAPIRepository.addTaskToDate(date, description);
@@ -66,6 +74,14 @@ class TaskController {
             return TaskAPIRepository.setTaskCompleteForDate(date, taskId, complete);
         } else {
             return TaskLocalStorageRepository.setTaskCompleteForDate(date, taskId, complete);
+        }
+    }
+
+    static setRecurringTaskCompleteForDate(date: Date, taskId: string, complete: boolean) {
+        if (this.loggedIn) {
+            return TaskAPIRepository.setRecurringTaskCompleteForDate(date, taskId, complete);
+        } else {
+            return TaskLocalStorageRepository.setRecurringTaskCompleteForDate(date, taskId, complete);
         }
     }
 }

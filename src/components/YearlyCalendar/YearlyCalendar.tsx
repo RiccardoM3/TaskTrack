@@ -60,7 +60,7 @@ function YearlyCalendar({ year, setYear, selectedDay, setSelectedDay }: Props) {
                             <DateBox
                                 year={year}
                                 date={date}
-                                key={date.getTime()}
+                                key={date.toDateString()}
                                 selected={date.toDateString() === selectedDay.toDateString()}
                                 onClick={() => {
                                     setSelectedDay(date);

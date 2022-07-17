@@ -25,6 +25,10 @@ class TaskAPIRepository {
         return [];
     }
 
+    static getRecurringTasksForDate(day: Date): RecurringTask[] {
+        return [];
+    }
+
     static addTaskToDate(date: Date, description: string): Task {
         return { id: '', description: '', complete: false };
     }
@@ -32,14 +36,11 @@ class TaskAPIRepository {
     static removeTaskFromDate(date: Date, taskId: string) {}
 
     static setTaskCompleteForDate(date: Date, taskId: string, complete: boolean) {
-        let currentDateTasks: Task[] = this.getTasksForDate(date);
-        let dateTasks = currentDateTasks.filter((task: Task) => {
-            return task.id === taskId;
-        });
+        return;
+    }
 
-        if (dateTasks.length === 0) return;
-        const dateTask = dateTasks[0];
-        dateTask.complete = complete;
+    static setRecurringTaskCompleteForDate(date: Date, taskId: string, complete: boolean) {
+        return;
     }
 }
 
