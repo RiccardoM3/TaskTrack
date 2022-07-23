@@ -1,10 +1,8 @@
-import { Task, RecurringTask } from './Task';
+import { Task, RecurringTask, DateInterval } from './Task';
 import { v4 as uuid } from 'uuid';
-import Helpers from '../helpers/Helpers';
+import { addDays, differenceInCalendarDays, endOfDay, isEqual, startOfDay, subDays } from 'date-fns';
 
 class TaskLocalStorageRepository {
-    static getActiveRecurringTasks() {}
-
     static getAllRecurringTasks(): RecurringTask[] {
         let recurringTaskData: string | null = localStorage.getItem('recurring');
         if (!recurringTaskData) {
@@ -12,13 +10,21 @@ class TaskLocalStorageRepository {
         }
 
         let recurringTasks = JSON.parse(recurringTaskData);
-        return recurringTasks.map((item: any) => {
+        recurringTasks = recurringTasks.map((item: any) => {
             item.startDate = new Date(item.startDate);
             if (item.endDate != null) {
                 item.endDate = new Date(item.endDate);
             }
+            item.completePeriods = item.completePeriods.map((period: any) => {
+                return {
+                    start: new Date(period.start),
+                    end: new Date(period.end)
+                };
+            });
             return item;
         });
+
+        return recurringTasks;
     }
 
     static getAllActiveRecurringTasks(): RecurringTask[] {
@@ -38,15 +44,9 @@ class TaskLocalStorageRepository {
     }
 
     static addRecurringTask(description: string, startDate: Date, endDate: Date | null): Task {
-        startDate.setHours(0);
-        startDate.setMinutes(0);
-        startDate.setSeconds(0);
-        startDate.setMilliseconds(0);
+        startDate = startOfDay(startDate);
         if (endDate) {
-            endDate.setHours(23);
-            endDate.setMinutes(59);
-            endDate.setSeconds(59);
-            endDate.setMilliseconds(999);
+            endDate = endOfDay(endDate);
         }
 
         let newTask: Task = { id: uuid(), description: description, complete: false };
@@ -87,20 +87,9 @@ class TaskLocalStorageRepository {
     }
 
     static getRecurringTasksForDate(date: Date): RecurringTask[] {
-        let dayData: string | null = localStorage.getItem('recurring');
-        if (!dayData) {
-            return [];
-        }
+        let recurringTasks = this.getAllRecurringTasks();
 
-        let recurringDayTasks: RecurringTask[] = JSON.parse(dayData);
-        for (let recurringDayTask of recurringDayTasks) {
-            recurringDayTask.startDate = new Date(recurringDayTask.startDate);
-            if (recurringDayTask.endDate) {
-                recurringDayTask.endDate = new Date(recurringDayTask.endDate);
-            }
-        }
-
-        return recurringDayTasks.filter((item) => {
+        return recurringTasks.filter((item) => {
             return item.startDate <= date && (item.endDate == null || date <= item.endDate);
         });
     }
@@ -147,7 +136,7 @@ class TaskLocalStorageRepository {
         if (taskIndex < 0) return;
         if (complete) {
             //TODO
-            allRecurringTasks[taskIndex].completePeriods = [[date, date]];
+            allRecurringTasks[taskIndex].completePeriods = [{ start: startOfDay(date), end: endOfDay(date) }];
             console.log(allRecurringTasks[taskIndex]);
         } else {
             for (
@@ -155,26 +144,20 @@ class TaskLocalStorageRepository {
                 periodIndex < allRecurringTasks[taskIndex].completePeriods.length;
                 periodIndex++
             ) {
-                let [start, end] = allRecurringTasks[taskIndex].completePeriods[periodIndex];
+                let { start, end } = allRecurringTasks[taskIndex].completePeriods[periodIndex];
                 if (start <= date && date <= end) {
-                    if (Helpers.dateDiffInDays(start, end) === 0) {
+                    if (differenceInCalendarDays(start, end) === 0) {
                         //remove the period
                         allRecurringTasks[taskIndex].completePeriods.splice(periodIndex, 1);
                     } else {
                         //if on the edge, then just modify the edge of the period. otherwise split the period
-                        if (start.toDateString() === date.toDateString()) {
-                            let newStart = new Date(start);
-                            newStart.setDate(start.getDate() + 1);
-                            allRecurringTasks[taskIndex].completePeriods[periodIndex][0] = newStart;
-                        } else if (end.toDateString() === date.toDateString()) {
-                            let newEnd = new Date(end);
-                            newEnd.setDate(end.getDate() - 1);
-                            allRecurringTasks[taskIndex].completePeriods[periodIndex][1] = newEnd;
+                        if (isEqual(start, date)) {
+                            allRecurringTasks[taskIndex].completePeriods[periodIndex].start = addDays(start, 1);
+                        } else if (isEqual(end, date)) {
+                            allRecurringTasks[taskIndex].completePeriods[periodIndex].end = subDays(end, 1);
                         } else {
-                            let newPeriod1 = [new Date(start), new Date(date)];
-                            let newPeriod2 = [new Date(date), new Date(end)];
-                            newPeriod1[1].setDate(newPeriod1[1].getDate() - 1);
-                            newPeriod2[0].setDate(newPeriod2[0].getDate() + 1);
+                            let newPeriod1: DateInterval = { start: start, end: subDays(date, 1) };
+                            let newPeriod2: DateInterval = { start: addDays(date, 1), end: end };
                             allRecurringTasks[taskIndex].completePeriods.splice(periodIndex, 1); //delete old period
                             allRecurringTasks[taskIndex].completePeriods.splice(periodIndex, 0, newPeriod2); //add second period
                             allRecurringTasks[taskIndex].completePeriods.splice(periodIndex, 0, newPeriod1); // add first period

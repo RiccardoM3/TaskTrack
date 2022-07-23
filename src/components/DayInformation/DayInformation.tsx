@@ -7,6 +7,7 @@ import CheckboxItem from './CheckboxItem';
 import TaskController from '../../api/TaskController';
 import { RecurringTask, Task } from '../../api/Task';
 import { Link } from 'react-router-dom';
+import { isWithinInterval } from 'date-fns/esm';
 
 type Props = {
     day: Date;
@@ -65,6 +66,14 @@ function DayInformation({ day }: Props) {
             {dayTasks.length === 0 && recurringDayTasks.length === 0 && <div>No Tasks</div>}
             <Form>
                 {recurringDayTasks.map((recurringTask) => {
+                    let isCompleteForDay: boolean = false;
+                    for (let period of recurringTask.completePeriods) {
+                        if (isWithinInterval(day, period)) {
+                            isCompleteForDay = true;
+                            break;
+                        }
+                    }
+
                     return (
                         <div className="d-flex mb-2" key={recurringTask.task.id}>
                             <div className="checkbox-item-image">
@@ -74,7 +83,7 @@ function DayInformation({ day }: Props) {
                                 <FormCheck
                                     label={recurringTask.task.description}
                                     name={'task-' + recurringTask.task.id}
-                                    checked={false}
+                                    checked={isCompleteForDay}
                                     className="m-0"
                                     onChange={(e) => {
                                         TaskController.setRecurringTaskCompleteForDate(
@@ -90,6 +99,7 @@ function DayInformation({ day }: Props) {
                                 variant="danger"
                                 className="ms-2"
                                 onClick={() => {
+                                    // TODO
                                     // TaskController.removeTaskFromDate(day, recurringTask.task.id);
                                     // setDayTasks(TaskController.getTasksForDate(day));
                                 }}

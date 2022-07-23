@@ -1,3 +1,8 @@
+type DateInterval = {
+    start: Date;
+    end: Date;
+};
+
 type Task = {
     id: string;
     description: string;
@@ -18,7 +23,7 @@ type RecurringTask = {
     task: Task;
     startDate: Date;
     endDate: Date | null;
-    completePeriods: Date[][];
+    completePeriods: DateInterval[];
 };
 
-export { type Task, DateTasks, type RecurringTask };
+export { type Task, DateTasks, type RecurringTask, type DateInterval };
