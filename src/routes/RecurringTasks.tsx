@@ -1,10 +1,11 @@
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Modal, Row, Tab, Table, Tabs } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row, Tab, Table, Tabs } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { RecurringTask } from '../api/Task';
 import TaskController from '../api/TaskController';
+import Card from '../components/Card/Card';
 import DayPicker from '../components/DayPicker/DayPicker';
 
 function RecurringTasks() {
@@ -39,20 +40,23 @@ function RecurringTasks() {
 
     return (
         <Card className="mt-3">
+            <Card.Header>
+                <Row>
+                    <Col className="text-start">
+                        <Link to={'/'} className="text-white px-3">
+                            <FontAwesomeIcon icon={solid('arrow-left')} />
+                        </Link>
+                    </Col>
+                    <Col>Recurring Tasks</Col>
+                    <Col>
+                        <Button className="float-end me-2" variant="success" onClick={handleShow}>
+                            <FontAwesomeIcon className="me-2" icon={solid('plus-circle')} />
+                            New Recurring Task
+                        </Button>
+                    </Col>
+                </Row>
+            </Card.Header>
             <Card.Body>
-                <div className="float-start">
-                    <Link to={'/'} className="btn btn-sm btn-secondary me-2 align-top">
-                        <FontAwesomeIcon icon={solid('chevron-left')} />
-                    </Link>
-                    <h4 className="d-inline">Recurring Tasks</h4>
-                </div>
-                <Button className="float-end" variant="success" onClick={handleShow}>
-                    <FontAwesomeIcon className="me-2" icon={solid('plus-circle')} />
-                    New Recurring Task
-                </Button>
-
-                <div className="clearfix mb-3" />
-
                 <Tabs id="controlled-tab-example" activeKey={tabKey ?? 'active'} onSelect={(k) => setTabKey(k)}>
                     <Tab eventKey="active" title="Active">
                         <Table striped bordered>

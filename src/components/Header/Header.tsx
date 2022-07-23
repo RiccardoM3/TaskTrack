@@ -13,6 +13,8 @@ function Header() {
                 </div>
 
                 <div className="float-end">
+                    <Link to="/">Home</Link>
+                    <Link to="/statistics">My Stats</Link>
                     <Link to="/login">Login</Link>
                 </div>
             </nav>

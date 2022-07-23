@@ -6,7 +6,6 @@ import ProgressHeader from '../ProgressHeader/ProgressHeader';
 import CheckboxItem from './CheckboxItem';
 import TaskController from '../../api/TaskController';
 import { RecurringTask, Task } from '../../api/Task';
-import { Link } from 'react-router-dom';
 import { isWithinInterval } from 'date-fns/esm';
 
 type Props = {
@@ -155,9 +154,6 @@ function DayInformation({ day }: Props) {
                         <FontAwesomeIcon icon={solid('plus-circle')} className="me-1" />
                         Add New Task
                     </Button>
-                    <Link to="/recurring-tasks" className="btn btn-success ms-2">
-                        <FontAwesomeIcon icon={solid('edit')} /> Edit Recurring Tasks
-                    </Link>
                 </>
             )}
 
