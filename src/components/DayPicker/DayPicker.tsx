@@ -1,23 +1,23 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import './DayPicker.css';
 
 type Props = {
-    onChange?: (newValue: number[]) => void;
+    daysPicked: number[];
+    setDaysPicked: Dispatch<SetStateAction<number[]>>;
 };
 
-function DayPicker({ onChange }: Props) {
-    let [pickedDays, setPickedDays] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]);
+function DayPicker({ daysPicked, setDaysPicked }: Props) {
     const dayNames: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
     const toggleSelected = (day: number) => {
-        if (pickedDays.includes(day)) {
-            pickedDays = pickedDays.filter((e) => {
+        if (daysPicked.includes(day)) {
+            daysPicked = daysPicked.filter((e) => {
                 return e !== day;
             });
         } else {
-            pickedDays.push(day);
+            daysPicked.push(day);
         }
-        setPickedDays([...pickedDays]);
+        setDaysPicked([...daysPicked]);
     };
 
     return (
@@ -27,7 +27,7 @@ function DayPicker({ onChange }: Props) {
                 return (
                     <div
                         key={dayIndex}
-                        className={'day-picker-el' + (pickedDays.includes(dayIndex) ? ' selected' : '')}
+                        className={'day-picker-el' + (daysPicked.includes(dayIndex) ? ' selected' : '')}
                         onClick={() => {
                             toggleSelected(dayIndex);
                         }}

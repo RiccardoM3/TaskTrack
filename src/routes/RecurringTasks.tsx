@@ -23,10 +23,6 @@ function RecurringTasks() {
         setInactiveRecurringTasks(TaskController.getAllInactiveRecurringTasks());
     }, []);
 
-    const onDaysPickedChanged = (newDaysPicked: number[]) => {
-        setDaysPicked(newDaysPicked);
-    };
-
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
 
@@ -172,7 +168,7 @@ function RecurringTasks() {
 
                         <Form.Group className="mb-3" controlId="days">
                             <Form.Label>Days</Form.Label>
-                            <DayPicker onChange={onDaysPickedChanged} />
+                            <DayPicker daysPicked={daysPicked} setDaysPicked={setDaysPicked} />
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>

@@ -62,7 +62,11 @@ function DayInformation({ day }: Props) {
                 />
             </div>
 
-            {dayTasks.length === 0 && recurringDayTasks.length === 0 && <div>No Tasks</div>}
+            {dayTasks.length === 0 && recurringDayTasks.length === 0 && (
+                <div className="card px-3 mb-3" style={{ paddingTop: '6px', paddingBottom: '6px' }}>
+                    No Tasks
+                </div>
+            )}
             <Form>
                 {recurringDayTasks.map((recurringTask) => {
                     let isCompleteForDay: boolean = false;
@@ -74,7 +78,7 @@ function DayInformation({ day }: Props) {
                     }
 
                     return (
-                        <div className="d-flex mb-2" key={recurringTask.task.id}>
+                        <div className="d-flex mb-3" key={recurringTask.task.id}>
                             <div className="checkbox-item-image">
                                 <FontAwesomeIcon icon={solid('repeat')}></FontAwesomeIcon>
                             </div>
