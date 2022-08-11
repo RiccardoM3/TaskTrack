@@ -1,6 +1,6 @@
 import { Task, RecurringTask, DateInterval } from './Task';
 import { v4 as uuid } from 'uuid';
-import { addDays, differenceInCalendarDays, endOfDay, isEqual, startOfDay, subDays } from 'date-fns';
+import { addDays, differenceInCalendarDays, endOfDay, isAfter, isBefore, isEqual, startOfDay, subDays } from 'date-fns';
 
 class TaskLocalStorageRepository {
     static getAllRecurringTasks(): RecurringTask[] {
@@ -134,16 +134,64 @@ class TaskLocalStorageRepository {
         });
 
         if (taskIndex < 0) return;
+
+        let periodsLength = allRecurringTasks[taskIndex].completePeriods.length;
         if (complete) {
-            //TODO
-            allRecurringTasks[taskIndex].completePeriods = [{ start: startOfDay(date), end: endOfDay(date) }];
-            console.log(allRecurringTasks[taskIndex]);
-        } else {
-            for (
-                let periodIndex = 0;
-                periodIndex < allRecurringTasks[taskIndex].completePeriods.length;
-                periodIndex++
+            //TODO: this still has bugs
+            //check if we should add it to the end of the array
+            if (
+                periodsLength === 0 ||
+                isAfter(date, addDays(allRecurringTasks[taskIndex].completePeriods[periodsLength - 1].end, 1))
             ) {
+                let newPeriod: DateInterval = { start: startOfDay(date), end: endOfDay(date) };
+                allRecurringTasks[taskIndex].completePeriods.push(newPeriod);
+            } else {
+                for (let periodIndex = 0; periodIndex < periodsLength; periodIndex++) {
+                    let period: DateInterval = allRecurringTasks[taskIndex].completePeriods[periodIndex];
+
+                    //check if its on the start edge of a pariod
+                    if (isEqual(date, subDays(period.start, 1))) {
+                        //check if we need to merge it with the prev period
+                        if (
+                            periodIndex - 1 >= 0 &&
+                            isEqual(allRecurringTasks[taskIndex].completePeriods[periodIndex - 1].end, subDays(date, 1))
+                        ) {
+                            allRecurringTasks[taskIndex].completePeriods[periodIndex - 1].end =
+                                allRecurringTasks[taskIndex].completePeriods[periodIndex].end; //update the previous period
+                            allRecurringTasks[taskIndex].completePeriods.splice(periodIndex, 1); //delete the current period
+                        } else {
+                            allRecurringTasks[taskIndex].completePeriods[periodIndex].start = subDays(period.start, 1);
+                        }
+                        break;
+                    }
+                    //check if its on the end edge of a period
+                    else if (isEqual(date, addDays(period.end, 1))) {
+                        //check if we need to merge it with the next period
+                        if (
+                            periodIndex + 1 < periodsLength &&
+                            isEqual(
+                                allRecurringTasks[taskIndex].completePeriods[periodIndex + 1].start,
+                                addDays(date, 1)
+                            )
+                        ) {
+                            allRecurringTasks[taskIndex].completePeriods[periodIndex].end =
+                                allRecurringTasks[taskIndex].completePeriods[periodIndex + 1].end; //update the current period
+                            allRecurringTasks[taskIndex].completePeriods.splice(periodIndex + 1, 1); //delete the next period
+                        } else {
+                            allRecurringTasks[taskIndex].completePeriods[periodIndex].end = addDays(period.end, 1);
+                        }
+                        break;
+                    }
+                    //check if it's before the period
+                    else if (isBefore(date, subDays(period.start, 1))) {
+                        let newPeriod: DateInterval = { start: startOfDay(date), end: endOfDay(date) };
+                        allRecurringTasks[taskIndex].completePeriods.splice(periodIndex, 0, newPeriod);
+                        break;
+                    }
+                }
+            }
+        } else {
+            for (let periodIndex = 0; periodIndex < periodsLength; periodIndex++) {
                 let { start, end } = allRecurringTasks[taskIndex].completePeriods[periodIndex];
                 if (start <= date && date <= end) {
                     if (differenceInCalendarDays(start, end) === 0) {
