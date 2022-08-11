@@ -1,5 +1,7 @@
 .yearly-calendar {
     text-align: center;
+    overflow-x: auto;
+    padding-bottom: 8px;
 }
 
 .yearly-calendar .calendar-container {

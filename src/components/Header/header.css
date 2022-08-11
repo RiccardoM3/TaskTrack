@@ -1,48 +1,30 @@
 header nav {
-    height: 52px;
-    text-align: center;
-    padding: 10px;
-    background: white;
     border-bottom: solid 2px rgb(0, 156, 26);
-    line-height: 30px;
+    font-weight: 500;
 }
 
 header nav a {
-    display: inline-block;
-    position: relative;
-    color: rgb(0, 156, 26);
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 30px;
-    text-decoration: none;
-    padding: 0 1rem;
+    color: rgb(0, 156, 26) !important;
 }
 
 header nav a:hover {
-    color: rgb(0, 156, 26);
     text-decoration: underline;
 }
 
-header nav a:not(:last-child):after {
-    position: absolute;
-    content: '';
-    right: -1px;
-    color: red;
-    width: 2px;
-    height: 100%;
-    top: 0;
-    background-color: rgb(0, 156, 26);
+header nav .navbar-nav a {
+    position: relative;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
 }
 
-header nav a.title {
-    display: flex;
-    color: rgb(0, 156, 26);
-    font-size: 21px;
-    font-weight: 500;
-    line-height: 30px;
-    text-decoration: none;
-}
-
-header nav a.title:hover {
-    color: rgb(0, 156, 26);
+@media (min-width: 768px) {
+    header nav .navbar-nav a:not(:last-child):after {
+        position: absolute;
+        content: '';
+        right: -1px;
+        width: 2px;
+        height: 60%;
+        top: 20%;
+        background-color: rgb(0, 156, 26);
+    }
 }

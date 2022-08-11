@@ -138,6 +138,7 @@ class TaskLocalStorageRepository {
         let periodsLength = allRecurringTasks[taskIndex].completePeriods.length;
         if (complete) {
             //TODO: this still has bugs
+
             //check if we should add it to the end of the array
             if (
                 periodsLength === 0 ||
@@ -149,7 +150,7 @@ class TaskLocalStorageRepository {
                 for (let periodIndex = 0; periodIndex < periodsLength; periodIndex++) {
                     let period: DateInterval = allRecurringTasks[taskIndex].completePeriods[periodIndex];
 
-                    //check if its on the start edge of a pariod
+                    //check if its on the start edge of a period
                     if (isEqual(date, subDays(period.start, 1))) {
                         //check if we need to merge it with the prev period
                         if (

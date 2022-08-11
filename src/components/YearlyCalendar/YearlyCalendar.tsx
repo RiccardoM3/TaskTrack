@@ -10,6 +10,7 @@ type Props = {
 
 function YearlyCalendar({ year, setYear, selectedDay, setSelectedDay }: Props) {
     const days: Date[] = getDaysInYear(year);
+
     return (
         <div className="yearly-calendar">
             <div className="calendar-container">

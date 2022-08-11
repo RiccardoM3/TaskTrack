@@ -39,7 +39,7 @@ function Main() {
                     </Col>
                     <Col>
                         <Link to="/recurring-tasks" className="btn me-2 float-end">
-                            <FontAwesomeIcon icon={solid('edit')} /> Edit Recurring Tasks
+                            <FontAwesomeIcon icon={solid('edit')} /> Recurring Tasks
                         </Link>
                     </Col>
                 </Row>
