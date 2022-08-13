@@ -5,6 +5,7 @@ type Props = {
     year: number;
     date: Date;
     selected: boolean;
+    level: number | null;
     onClick: () => void;
 };
 
@@ -15,8 +16,12 @@ const getTrueDay = (date: Date) => {
     return (date.getDay() + 6) % 7;
 };
 
-const DateBox = ({ year, date, selected, onClick }: Props) => {
+const DateBox = ({ year, date, selected, level, onClick }: Props) => {
     let classes = 'date-box';
+
+    if (level !== null) {
+        classes += ' level-' + level;
+    }
 
     if (date.getFullYear() !== year) {
         classes += ' not-this-year';

@@ -5,8 +5,8 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import ProgressHeader from '../ProgressHeader/ProgressHeader';
 import CheckboxItem from './CheckboxItem';
 import TaskController from '../../api/TaskController';
-import { RecurringTask, Task } from '../../api/Task';
-import { isWithinInterval } from 'date-fns/esm';
+import { RecurringTask, recurringTaskCompleteForDay, Task } from '../../api/Task';
+import { Link } from 'react-router-dom';
 
 type Props = {
     day: Date;
@@ -69,14 +69,6 @@ function DayInformation({ day }: Props) {
             )}
             <Form>
                 {recurringDayTasks.map((recurringTask) => {
-                    let isCompleteForDay: boolean = false;
-                    for (let period of recurringTask.completePeriods) {
-                        if (isWithinInterval(day, period)) {
-                            isCompleteForDay = true;
-                            break;
-                        }
-                    }
-
                     return (
                         <div className="d-flex mb-3" key={recurringTask.task.id}>
                             <div className="checkbox-item-image">
@@ -86,7 +78,7 @@ function DayInformation({ day }: Props) {
                                 <FormCheck
                                     label={recurringTask.task.description}
                                     name={'task-' + recurringTask.task.id}
-                                    checked={isCompleteForDay}
+                                    checked={recurringTaskCompleteForDay(recurringTask, day)}
                                     className="m-0"
                                     onChange={(e) => {
                                         TaskController.setRecurringTaskCompleteForDate(
@@ -151,13 +143,17 @@ function DayInformation({ day }: Props) {
                 <>
                     <Button
                         variant="success"
+                        className="me-1"
                         onClick={() => {
                             setNewTaskOpen(true);
                         }}
                     >
                         <FontAwesomeIcon icon={solid('plus-circle')} className="me-1" />
-                        Add New Task
+                        New Task
                     </Button>
+                    <Link to="/recurring-tasks" className="btn btn-success">
+                        <FontAwesomeIcon icon={solid('edit')} /> Edit Recurring Tasks
+                    </Link>
                 </>
             )}
 

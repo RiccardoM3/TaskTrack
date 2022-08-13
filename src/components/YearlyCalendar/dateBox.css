@@ -1,6 +1,6 @@
 .date-box {
-    background: rgb(224, 224, 224);
-    border: solid rgb(200, 200, 200) 1px;
+    background: rgb(232, 232, 232);
+    border: solid rgb(208, 208, 208) 1px;
     border-radius: 3px;
     width: 15px;
     height: 15px;
@@ -16,4 +16,25 @@
 
 .date-box.today {
     outline: solid #237921 1px;
+}
+
+.date-box.level-0 {
+    background: rgb(208, 208, 208);
+    border: solid rgb(188, 188, 188) 1px;
+}
+
+.date-box.level-1 {
+    background: rgb(163, 223, 163);
+}
+
+.date-box.level-2 {
+    background: rgb(115, 209, 115);
+}
+
+.date-box.level-3 {
+    background: rgb(83, 195, 83);
+}
+
+.date-box.level-4 {
+    background: rgb(101, 169, 101);
 }

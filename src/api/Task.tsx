@@ -1,3 +1,5 @@
+import { isWithinInterval } from 'date-fns';
+
 type DateInterval = {
     start: Date;
     end: Date;
@@ -26,4 +28,14 @@ type RecurringTask = {
     completePeriods: DateInterval[];
 };
 
-export { type Task, DateTasks, type RecurringTask, type DateInterval };
+//When we convert a recurring task into a class, this will be a method
+const recurringTaskCompleteForDay = (recurringTask: RecurringTask, day: Date): boolean => {
+    for (let period of recurringTask.completePeriods) {
+        if (isWithinInterval(day, period)) {
+            return true;
+        }
+    }
+    return false;
+};
+
+export { type Task, DateTasks, type RecurringTask, type DateInterval, recurringTaskCompleteForDay };
