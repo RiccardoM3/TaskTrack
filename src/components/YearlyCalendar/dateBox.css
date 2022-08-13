@@ -10,10 +10,6 @@
     opacity: 50%;
 }
 
-.date-box.selected {
-    border: solid #288b27 2px;
-}
-
 .date-box.today {
     outline: solid #237921 1px;
 }
@@ -37,4 +33,8 @@
 
 .date-box.level-4 {
     background: rgb(101, 169, 101);
+}
+
+.date-box.selected {
+    border: solid #288b27 2px;
 }
