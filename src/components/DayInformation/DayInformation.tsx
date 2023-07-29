@@ -16,6 +16,9 @@ function DayInformation({ day }: Props) {
     const [dayTasks, setDayTasks] = useState<Task[]>([]);
     const [recurringDayTasks, setRecurringDayTasks] = useState<RecurringTask[]>([]);
     const [newTaskOpen, setNewTaskOpen] = useState<boolean>(false);
+    const [isEditing, setIsEditing] = useState<string>('');
+    const [editeddescription, setEditedDescription] = useState<string>('');
+
     const descriptionElement = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -45,6 +48,7 @@ function DayInformation({ day }: Props) {
         if (current.complete) return prev + 1;
         return prev;
     }, 0);
+
     return (
         <>
             <div className="mb-3 mt-4">
@@ -74,7 +78,7 @@ function DayInformation({ day }: Props) {
                             <div className="checkbox-item-image">
                                 <FontAwesomeIcon icon={solid('repeat')}></FontAwesomeIcon>
                             </div>
-                            <CheckboxItem>
+                            <CheckboxItem style={(["bae", "bae's", "baby"].some(x => recurringTask.task.description.includes(x))) ? {backgroundColor:'lightpink'} : {}}>
                                 <FormCheck
                                     label={recurringTask.task.description}
                                     name={'task-' + recurringTask.task.id}
@@ -107,36 +111,89 @@ function DayInformation({ day }: Props) {
                 {dayTasks.map((task) => {
                     return (
                         <div className="d-flex mb-2" key={task.id}>
-                            <div className="checkbox-item-image">
+                            <div className="checkbox-item-image" >
                                 <FontAwesomeIcon icon={solid('calendar-day')}></FontAwesomeIcon>
                             </div>
-                            <CheckboxItem>
-                                <FormCheck
-                                    label={task.description}
-                                    name={'task-' + task.id}
-                                    checked={task.complete}
-                                    className="m-0"
-                                    onChange={(e) => {
-                                        TaskController.setTaskCompleteForDate(day, task.id, e.target.checked);
-                                        let dayTasks: Task[] = TaskController.getTasksForDate(day);
-                                        setDayTasks(dayTasks);
-                                    }}
-                                ></FormCheck>
-                            </CheckboxItem>
-                            <Button
-                                variant="danger"
-                                className="ms-2"
-                                onClick={() => {
-                                    TaskController.removeTaskFromDate(day, task.id);
-                                    let dayTasks: Task[] = TaskController.getTasksForDate(day);
-                                    setDayTasks(dayTasks);
-                                }}
-                            >
-                                <FontAwesomeIcon icon={solid('trash')} />
-                            </Button>
+
+                            {isEditing === task.id && (
+                                <Form className="d-flex flex-grow-1">
+                                    <Form.Control
+                                        type="text"
+                                        name="description"
+                                        maxLength={196}
+                                        className="me-2"
+                                        defaultValue={task.description}
+                                        onChange={(e) => {
+                                            setEditedDescription(e.target.value);
+                                        }}
+                                    />
+                                    <Button
+                                        type="submit"
+                                        variant="success"
+                                        className="me-2"
+                                        onClick={() => {
+                                            TaskController.editTask(day, task.id, editeddescription)
+                                            let dayTasks: Task[] = TaskController.getTasksForDate(day);
+                                            setDayTasks(dayTasks);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={solid('check')} />
+                                    </Button>
+                                    <Button
+                                        variant="danger"
+                                        onClick={() => {
+                                            setIsEditing('');
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={solid('xmark')} />
+                                    </Button>
+                                </Form>
+                            )}
+
+                            {isEditing !== task.id && (
+                                <><CheckboxItem style={(["bae", "bae's", "baby"].some(x => task.description.includes(x)))  ? {backgroundColor:'#F8C8DC'} : {}}>
+                                    <FormCheck
+                                        label={task.description}
+                                        name={'task-' + task.id}
+                                        checked={task.complete}
+                                        className="m-0"
+                                        onChange={(e) => {
+                                            TaskController.setTaskCompleteForDate(day, task.id, e.target.checked);
+                                            let dayTasks: Task[] = TaskController.getTasksForDate(day);
+                                            setDayTasks(dayTasks);
+                                        }}
+                                    ></FormCheck>
+                                </CheckboxItem>
+                                    <Button
+                                        variant="primary"
+                                        className="ms-2"
+                                        onClick={() => {
+                                            setIsEditing(task.id);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={solid('pen-to-square')} />
+                                    </Button>
+
+                                    <Button
+                                        variant="danger"
+                                        className="ms-2"
+                                        onClick={() => {
+                                            TaskController.removeTaskFromDate(day, task.id);
+                                            let dayTasks: Task[] = TaskController.getTasksForDate(day);
+                                            setDayTasks(dayTasks);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={solid('trash')} />
+                                    </Button>
+
+                                </>
+                            )}
+
                         </div>
-                    );
-                })}
+                    )
+                }
+                )}
+
             </Form>
 
             {!newTaskOpen && (
