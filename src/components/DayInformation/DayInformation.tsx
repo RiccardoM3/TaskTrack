@@ -16,8 +16,8 @@ function DayInformation({ day }: Props) {
     const [dayTasks, setDayTasks] = useState<Task[]>([]);
     const [recurringDayTasks, setRecurringDayTasks] = useState<RecurringTask[]>([]);
     const [newTaskOpen, setNewTaskOpen] = useState<boolean>(false);
-    const [isEditing, setIsEditing] = useState<string>('');
-    const [editeddescription, setEditedDescription] = useState<string>('');
+    const [editingTaskId, setEditingTaskId] = useState<string>('');
+    const [editedDescription, setEditedDescription] = useState<string>('');
 
     const descriptionElement = useRef<HTMLInputElement>(null);
 
@@ -78,7 +78,7 @@ function DayInformation({ day }: Props) {
                             <div className="checkbox-item-image">
                                 <FontAwesomeIcon icon={solid('repeat')}></FontAwesomeIcon>
                             </div>
-                            <CheckboxItem style={(["bae", "bae's", "baby"].some(x => recurringTask.task.description.includes(x))) ? {backgroundColor:'lightpink'} : {}}>
+                            <CheckboxItem className={(["bae", "bae's", "baby"].some(x => recurringTask.task.description.includes(x))) ? 'checkbox-item-cute' : 'checkbox-item'}>
                                 <FormCheck
                                     label={recurringTask.task.description}
                                     name={'task-' + recurringTask.task.id}
@@ -115,7 +115,7 @@ function DayInformation({ day }: Props) {
                                 <FontAwesomeIcon icon={solid('calendar-day')}></FontAwesomeIcon>
                             </div>
 
-                            {isEditing === task.id && (
+                            {editingTaskId === task.id && (
                                 <Form className="d-flex flex-grow-1">
                                     <Form.Control
                                         type="text"
@@ -132,7 +132,7 @@ function DayInformation({ day }: Props) {
                                         variant="success"
                                         className="me-2"
                                         onClick={() => {
-                                            TaskController.editTask(day, task.id, editeddescription)
+                                            TaskController.editTask(day, task.id, editedDescription)
                                             let dayTasks: Task[] = TaskController.getTasksForDate(day);
                                             setDayTasks(dayTasks);
                                         }}
@@ -142,7 +142,7 @@ function DayInformation({ day }: Props) {
                                     <Button
                                         variant="danger"
                                         onClick={() => {
-                                            setIsEditing('');
+                                            setEditingTaskId('');
                                         }}
                                     >
                                         <FontAwesomeIcon icon={solid('xmark')} />
@@ -150,8 +150,8 @@ function DayInformation({ day }: Props) {
                                 </Form>
                             )}
 
-                            {isEditing !== task.id && (
-                                <><CheckboxItem style={(["bae", "bae's", "baby"].some(x => task.description.includes(x)))  ? {backgroundColor:'#F8C8DC'} : {}}>
+                            {editingTaskId !== task.id && (
+                                <><CheckboxItem className={(["bae", "bae's", "baby"].some(x => task.description.includes(x))) ? 'checkbox-item-cute' : 'checkbox-item'}>
                                     <FormCheck
                                         label={task.description}
                                         name={'task-' + task.id}
@@ -168,7 +168,7 @@ function DayInformation({ day }: Props) {
                                         variant="primary"
                                         className="ms-2"
                                         onClick={() => {
-                                            setIsEditing(task.id);
+                                            setEditingTaskId(task.id);
                                         }}
                                     >
                                         <FontAwesomeIcon icon={solid('pen-to-square')} />
