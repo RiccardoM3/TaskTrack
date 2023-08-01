@@ -114,6 +114,17 @@ class TaskLocalStorageRepository {
         localStorage.setItem('dt-' + date.toLocaleDateString('en-au'), JSON.stringify(currentDateTasks));
     }
 
+    static editTask(date: Date, taskId: string, description: string) {
+        let currentDateTasks: Task[] = this.getTasksForDate(date);
+        let editedTask = currentDateTasks.find((task: Task) => (task.id === taskId));
+        editedTask!.description = description
+        
+        localStorage.setItem('dt-' + date.toLocaleDateString('en-au'), JSON.stringify(currentDateTasks));
+        
+        return editedTask;
+        
+    }
+
     static setTaskCompleteForDate(date: Date, taskId: string, complete: boolean) {
         let currentDateTasks: Task[] = this.getTasksForDate(date);
         let dateTasks = currentDateTasks.filter((task: Task) => {

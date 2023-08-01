@@ -42,6 +42,8 @@ class TaskAPIRepository {
     static setRecurringTaskCompleteForDate(date: Date, taskId: string, complete: boolean) {
         return;
     }
+
+    static editTask(date: Date, taskId: string, description: string) {}
 }
 
 export default TaskAPIRepository;

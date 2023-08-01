@@ -69,6 +69,14 @@ class TaskController {
         }
     }
 
+    static editTask(date: Date, taskId: string, description: string) {
+        if (this.loggedIn) {
+            return TaskAPIRepository.editTask(date, taskId, description);
+        } else {
+            return TaskLocalStorageRepository.editTask(date, taskId, description);
+        }
+    }
+
     static setTaskCompleteForDate(date: Date, taskId: string, complete: boolean) {
         if (this.loggedIn) {
             return TaskAPIRepository.setTaskCompleteForDate(date, taskId, complete);
