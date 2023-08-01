@@ -116,18 +116,19 @@ function DayInformation({ day }: Props) {
                             </div>
 
                             {editingTaskId === task.id && (
-                                <Form className="d-flex flex-grow-1">
+                                <Form className="d-flex flex-grow-1 rounded-end">
                                     <Form.Control
                                         type="text"
                                         name="description"
                                         maxLength={196}
-                                        className="me-2"
+                                        className="me-2 rounded-0 rounded-end"
                                         defaultValue={task.description}
                                         onChange={(e) => {
                                             setEditedDescription(e.target.value);
                                         }}
                                     />
                                     <Button
+                                        disabled={editedDescription === ''}
                                         type="submit"
                                         variant="success"
                                         className="me-2"
