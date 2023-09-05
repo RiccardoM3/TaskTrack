@@ -78,7 +78,7 @@ function DayInformation({ day }: Props) {
                             <div className="checkbox-item-image">
                                 <FontAwesomeIcon icon={solid('repeat')}></FontAwesomeIcon>
                             </div>
-                            <CheckboxItem className={(["bae", "bae's", "baby"].some(x => recurringTask.task.description.includes(x))) ? 'checkbox-item-cute' : 'checkbox-item'}>
+                            <CheckboxItem className={(["bae", "bun", "cutie", "waifu", "baby"].some(x => recurringTask.task.description.toLowerCase().includes(x))) ? 'checkbox-item-cute' : 'checkbox-item'}>
                                 <FormCheck
                                     label={recurringTask.task.description}
                                     name={'task-' + recurringTask.task.id}
@@ -152,7 +152,7 @@ function DayInformation({ day }: Props) {
                             )}
 
                             {editingTaskId !== task.id && (
-                                <><CheckboxItem className={(["bae", "bae's", "baby"].some(x => task.description.includes(x))) ? 'checkbox-item-cute' : 'checkbox-item'}>
+                                <><CheckboxItem className={(["bae", "bun", "cutie", "waifu", "baby"].some(x => task.description.toLowerCase().includes(x))) ? 'checkbox-item-cute' : 'checkbox-item'}>
                                     <FormCheck
                                         label={task.description}
                                         name={'task-' + task.id}
